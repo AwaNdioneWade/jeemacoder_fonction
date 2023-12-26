@@ -22,7 +22,8 @@ const App = () => {
 
     // useEffet pour mettre à jour le stockage local lorsque listeUser change
     useEffect(() => {
-        localStorage.setItem('listeUser', JSON.stringify(state.listeUser));
+        localStorage.setItem('listeUser', JSON.stringify(state.listeUser))
+        return() => console.log('demonté')
     }, [state.listeUser])
 
     // Gérer le changement dans les champs de formulaire
@@ -169,7 +170,14 @@ const Tbody = ({ listeUser, editUser, deleteUser }) => {
 
     return (
         listeUser.map((user) => (
-            <tr className='text-center' key={user.id}>
+            <Tr user={user} editUser={editUser} deleteUser={deleteUser} />
+        ))
+    )
+}
+
+const Tr = ({ user, editUser, deleteUser }) =>{
+    return (
+        <tr className='text-center' key={user.id}>
                 <td>{user.prenom}</td>
                 <td>{user.nom}</td>
                 <td>{user.email}</td>
@@ -179,7 +187,7 @@ const Tbody = ({ listeUser, editUser, deleteUser }) => {
                     <button className='btn btn-danger ms-2 mt-2 mt-md-0' onClick={() => deleteUser(user.id)}>Supprimer</button>
                 </td>
             </tr>
-        ))
     )
 }
+
 export default App;
